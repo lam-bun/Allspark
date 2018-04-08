@@ -1,6 +1,8 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.20;
 
-contract TransformerFactory {
+import '../ref/Ownable.sol';
+
+contract TransformerFactory is Ownable{
 
   uint matrixDigits = 16;
   uint matrixModulus = 10 ** matrixDigits;
