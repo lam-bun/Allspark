@@ -1,4 +1,4 @@
-pragma solidity ^0.4.17;
+pragma solidity ^0.4.19;
 
 contract TransformerFactory {
 
@@ -11,7 +11,7 @@ contract TransformerFactory {
   struct Transfomer {
     string name;
     uint matrix;
-    uint8 level;
+    uint16 level;
     uint16 battle;
     uint16 victoryCount;
     uint16 defeatCount;
@@ -27,9 +27,14 @@ contract TransformerFactory {
     NewTransfomer(transfomerId, _name, _matrix);
   }
 
-  function trasnfer(string _name) public {
-    uint randomMatrix = uint(keccak256(_name)) % matrixModulus;
+  function _generateMatrix(string _str) private view returns (uint) {
+    uint randomMatrix = uint(keccak256(_str)) % matrixModulus;
     randomMatrix = randomMatrix - randomMatrix % 100;
+    return randomMatrix;
+  }
+
+  function trasnfer(string _name) public {
+    uint randomMatrix = _generateMatrix(_name);
     _transfer(_name, randomMatrix);
   }
 
