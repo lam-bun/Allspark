@@ -5,6 +5,8 @@ import "../ref/Ownable.sol";
 
 contract TransformerFactory is Ownable {
 
+    using SafeMath for uint16;
+
     uint private matrixDigits = 16;
     uint private matrixModulus = 10 ** matrixDigits;
     Transfomer[] public transfomers;
@@ -23,6 +25,11 @@ contract TransformerFactory is Ownable {
     mapping (uint => address) public transfomerToOwner;
     mapping (address => Transfomer[]) public ownerTransfomers;
 
+    modifier onlyOwnerOf(uint _transformerId) {
+        require(msg.sender == transfomerToOwner[_transformerId]);
+        _;
+    }
+
     function trasnfer(string _name) public {
         uint randomMatrix = _generateMatrix(_name);
         _transfer(_name, randomMatrix);
@@ -35,10 +42,12 @@ contract TransformerFactory is Ownable {
         NewTransfomer(transfomerId, _name, _matrix);
     }
 
+    function _mergeMatrix(uint _matrix, uint _targetMatrix) internal {
+        return uint(keccak256(_matrix, _targetMatrix)) % matrixModulus;
+    }
+
     function _generateMatrix(string _str) private view returns (uint) {
-        uint randomMatrix = uint(keccak256(_str)) % matrixModulus;
-        randomMatrix = randomMatrix - randomMatrix % 100;
-        return randomMatrix;
+        return uint(keccak256(_str)) % matrixModulus;
     }
 
 }

@@ -16,11 +16,6 @@ contract TransformerUtils is TransformerFactory {
         _;
     }
 
-    modifier onlyOwnerOf(uint _transformerId) {
-        require(msg.sender == transfomerToOwner[_transformerId]);
-        _;
-    }
-
     function changeLevelUpFee(uint _levelUpFee) external onlyOwner {
         levelUpFee = _levelUpFee;
     }
@@ -29,8 +24,12 @@ contract TransformerUtils is TransformerFactory {
         changeNameFee = _changeNameFee;
     }
 
+    function changeMatrixFee(uint _randomMatrixFee) external onlyOwner {
+        randomMatrixFee = _randomMatrixFee;
+    }
+
     function changeName(uint _transformerId, string _newName) external
-    onlyOwnerOf(_transformerId) onlyLevelOf(CHANGE_NAME_LEVEL_LIMIT, _transformerId) {
+        onlyOwnerOf(_transformerId) onlyLevelOf(CHANGE_NAME_LEVEL_LIMIT, _transformerId) {
         transformers[_transformerId].name = _newName;
     }
 
