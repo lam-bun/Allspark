@@ -1,7 +1,7 @@
 pragma solidity ^0.4.20;
 
-import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
-import 'zeppelin-solidity/contracts/math/SafeMath.sol';
+import "zeppelin-solidity/contracts/ownership/Ownable.sol";
+import "zeppelin-solidity/contracts/math/SafeMath.sol";
 
 
 contract TransformerFactory is Ownable {
@@ -34,6 +34,10 @@ contract TransformerFactory is Ownable {
     function trasnfer(string _name) public {
         uint randomMatrix = _generateMatrix(_name);
         _transfer(_name, randomMatrix);
+    }
+
+    function getTransfomerCount(address _owner) public view returns(uint) {
+        return ownerTransfomers[_owner].length;
     }
 
     function _transfer(string _name, uint _matrix) internal {
