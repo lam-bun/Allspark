@@ -1,7 +1,7 @@
 pragma solidity ^0.4.20;
 
 import "./TransformerUtils.sol";
-import "../ref/SafeMath.sol";
+import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 
 
 contract TransformerBattle is TransformerUtils {
